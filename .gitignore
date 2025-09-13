@@ -2,3 +2,4 @@ venv_background_remover
 background_remover_project/background_remover_project/__pycache__
 background_remover_project/background_remover_app/migrations/__pycache__
 background_remover_project/background_remover_app/__pycache__
+background_remover_project/db.sqlite3
