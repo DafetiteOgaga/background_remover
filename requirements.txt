@@ -8,6 +8,7 @@ django-cors-headers==4.8.0
 django-extensions==4.1
 djangorestframework==3.16.1
 flatbuffers==25.2.10
+gunicorn==23.0.0
 humanfriendly==10.0
 idna==3.10
 imageio==2.37.0
