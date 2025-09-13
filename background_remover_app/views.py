@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -61,6 +62,7 @@ def apply_background(image, bg_color=None):
 def test_api(request):
     return Response({'message': 'Hello from background_remover!'})
 
+@csrf_exempt
 @api_view(["POST"])
 @parser_classes([MultiPartParser, FormParser])
 def remove_background(request):
@@ -134,6 +136,7 @@ def remove_background(request):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@csrf_exempt
 @api_view(["POST"])
 @parser_classes([MultiPartParser, FormParser])
 def remove_background_bulk(request):
@@ -194,6 +197,7 @@ def remove_background_bulk(request):
     response["Content-Disposition"] = 'attachment; filename="processed_images.zip"'
     return response
 
+@csrf_exempt
 @api_view(["POST"])
 @parser_classes([MultiPartParser, FormParser])
 def remove_background_bulk_wurl(request):
