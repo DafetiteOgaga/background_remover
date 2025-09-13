@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+# pulling from github main
+echo ""
+echo "Pulling from github-main"
+git pull
+echo "##### Pulling from github-main done."
+echo ""
+sleep 2
+
+# activating virtual environment
+activate_venv="$(find . -type f -name 'activate' | head -n 1)"
+maka_and_migrate="$(find . -name "manage.py")"
+maka_and_migrate="${maka_and_migrate%/*}"
+# Get current Python major.minor version (e.g., 3.10)
+py_version=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+if [ -n "$activate_venv" ]; then
+    echo "Activating virtual environment at: $activate_venv"
+    source "$activate_venv"
+    echo "##### Activated virtual environment ..."
+    echo ""
+else
+    echo "No venv found in $HOME"
+	echo "creating one..."
+	current_dir=$(pwd)
+	cd "$maka_and_migrate"
+	echo "Creating virtual environment in: $maka_and_migrate"
+	# python$py_version -m venv "server_virtual_env"
+	python3 -m venv "server_virtual_env"
+	sleep 2
+	source "server_virtual_env/bin/activate"
+	echo "##### Created and activated virtual environment ..."
+	echo ""
+	cd "$current_dir"
+	# echo "##### Created virtual environment ..."
+	# echo "Re-run this script to activate the virtual environment."
+	# exit 0
+fi
+sleep 2
+
+# install django
+django_version=$(django-admin --version 2>&1)
+echo "##### django version exit statue: $django_version"
+if [[ $$? != 0 ]]; then
+	echo "installing django ..."
+	pip install django
+	echo "##### django installed ..."
+	sleep 2
+else
+	echo "##### django present ..."
+fi
+echo ""
+
+# install dependencies
+requirement_file_path="$(find . -name "requirements.txt")"
+echo "requirement_file_path: $requirement_file_path"
+requirement_file_path="${requirement_file_path%/*}"
+cd "$requirement_file_path"
+pip install -r requirements.txt
+echo ""
+echo "##### installed dependencies ..."
+echo ""
+sleep 2
+
+# making and migrating migrations
+# maka_and_migrate="$(find $HOME -name "manage.py")"
+echo "manage_py_file_path: $maka_and_migrate"
+# maka_and_migrate="${maka_and_migrate%/*}"
+cd "$maka_and_migrate"
+python manage.py makemigrations
+sleep 2
+python manage.py migrate
+echo ""
+echo "##### database configurations updated ..."
+echo ""
+sleep 2
+
+# collect static files for production
+python manage.py collectstatic --noinput
+sleep 2
+echo "##### static files collected ..."
+echo ""
+# sleep 2
