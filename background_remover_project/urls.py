@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('background-remover/', include('background_remover_app.urls')),     # For background_remover_app configuration
+    path('', include('background_remover_app.urls')),     # For background_remover_app configuration
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
