@@ -3,7 +3,7 @@
 #!/bin/bash
 # Start Django app using gunicorn
 # Listen on the port Render provides via $PORT
-echo "PORT is $PORT"
+echo "PORT provided is $PORT"
 exec gunicorn background_remover_project.wsgi:application \
     --bind 0.0.0.0:$PORT \
     --workers 1 \
