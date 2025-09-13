@@ -60,6 +60,7 @@ def apply_background(image, bg_color=None):
 # Create your views here.
 @api_view(['GET'])
 def test_api(request):
+    print('Test API endpoint hit')
     return Response({'message': 'Hello from background_remover!'})
 
 # Temporary simple Django view for testing
