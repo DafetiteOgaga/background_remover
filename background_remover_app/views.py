@@ -62,6 +62,10 @@ def apply_background(image, bg_color=None):
 def test_api(request):
     return Response({'message': 'Hello from background_remover!'})
 
+# Temporary simple Django view for testing
+def simple_test(request):
+    return JsonResponse({'message': 'Simple Django view working!'})
+
 @csrf_exempt
 @api_view(["POST"])
 @parser_classes([MultiPartParser, FormParser])
